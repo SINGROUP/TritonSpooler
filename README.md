@@ -9,6 +9,7 @@ When all jobs are in such states, the spooler will stop.
 
 
 ## Folder content
-. asd
-. lol
-. asd
+
+/src: generic spooler code
+
+/psi4: example use for molecule DB calculations
