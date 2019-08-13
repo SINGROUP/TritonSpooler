@@ -14,10 +14,12 @@ cs = ChemSpider("xONbOGbUKNBxBwtz9jdNfq6UxHGkVr1m")
 
 
 
-
 MAX_HEAVY_ATOMS = 24
 MAX_ELECTRONS = MAX_HEAVY_ATOMS * 6
 
+
+## Enum with job states.
+#
 class StatusID(Enum):
 	
 	STATUS_XYZ_FAIL_PUBCHEM = 0
@@ -61,13 +63,20 @@ class StatusID(Enum):
 	STATUS_COMPLETED = 1000			# itz all done!
 
 
+
+## Represents a spooler job for a molecule simulation.
 class Simulation(SpoolerJob):
 	
+
+	## Constructor, overrides the default one.
+	#
 	def __init__(self, jobID, types=None, xyz=None):
 		
 		super().__init__(jobID, None)
-		
+
 		self.inchikey = ""
+
+		# run/queue parameters
 		self.nthreads = 10
 		self.queue = "batch"
 		self.arch = "[skl]"
@@ -76,13 +85,19 @@ class Simulation(SpoolerJob):
 		self.memory = 1000
 		self.timefactor = 1
 		
+		## List of atom types.
 		self.types = types
+
+		## Matrix of atomic coordinates.
 		self.xyz = xyz
 		
+
 		self.geoopt_failstate = 0
 		
+		## Calculation folder.
 		self.directory =  "molecule_{}".format(self.ID)
 		
+		# various input/output file names for GEOOPT and CCSD
 		self.input_go =  "{}/geoopt.py".format(self.directory)
 		self.job_go = "{}/geoopt.job".format(self.directory)
 		self.output_go = "{}/geoopt.out".format(self.directory)
@@ -91,6 +106,7 @@ class Simulation(SpoolerJob):
 		self.job_cc = "{}/ccsdrun.job".format(self.directory)
 		self.output_cc = "{}/ccsdrun.out".format(self.directory)
 		
+
 		# compute useful properties
 		self.nheavy = 0
 		self.nelect = 0
