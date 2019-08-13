@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#SBATCH -J 
+#SBATCH -p QUEUE
+#SBATCH -t TIMELIM
+#SBATCH --constraint=CPUTYPE
+#SBATCH --cpus-per-task=NTHR
+#SBATCH --mem-per-cpu=MEMLIM
+
+export OMP_PROC_BIND=true
+export PSI_SCRATCH=/tmp/
+
+source ~/programs/psi4env/bin/activate
+module load iomklc/triton-2017a
+module load cmake/3.12.1
+
+srun python geoopt.py
+
+
